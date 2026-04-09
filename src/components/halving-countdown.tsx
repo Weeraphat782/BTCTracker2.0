@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Timer, X, Box, Milestone, RefreshCw, Calendar } from 'lucide-react'
+import { Timer, X, Box, Milestone, RefreshCw, Calendar, Info } from 'lucide-react'
 import { Skeleton } from '@/components/ui/skeleton'
 
 interface HalvingData {
@@ -21,8 +21,10 @@ interface HalvingCountdownProps {
 export function HalvingCountdown({ onClose }: HalvingCountdownProps) {
   const [data, setData] = useState<HalvingData | null>(null)
   const [loading, setLoading] = useState(true)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
+    setMounted(true)
     fetch('/api/halving')
       .then(res => res.json())
       .then(d => {
@@ -92,7 +94,7 @@ export function HalvingCountdown({ onClose }: HalvingCountdownProps) {
                 </div>
                 <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-secondary text-xs font-bold text-muted-foreground">
                   <Calendar className="h-3.5 w-3.5" />
-                  ~ {new Date(data.estimatedDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                  ~ {mounted && data.estimatedDate ? new Date(data.estimatedDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : '...'}
                 </div>
               </div>
 
@@ -114,17 +116,6 @@ export function HalvingCountdown({ onClose }: HalvingCountdownProps) {
                 </div>
               </div>
 
-              {/* Wisdom Section */}
-              <div className="p-6 rounded-[32px] bg-indigo-500/5 border border-indigo-500/10 space-y-3">
-                <div className="flex items-center gap-2 text-indigo-500">
-                  <Info className="h-4 w-4" />
-                  <span className="text-xs font-bold uppercase tracking-widest">Why it matters?</span>
-                </div>
-                <p className="text-sm font-medium leading-relaxed text-muted-foreground/80">
-                  Every 210,000 blocks, the amount of new Bitcoin created is cut in half. This reduces supply and is historically a major driver for long-term value appreciation.
-                </p>
-              </div>
-              
               <div className="flex items-center justify-center gap-2 px-4 opacity-30">
                 <RefreshCw className="h-3 w-3" />
                 <span className="text-[10px] font-bold uppercase tracking-widest">Network data via Mempool.space</span>

@@ -11,12 +11,11 @@ import { useBtcPrice } from '@/hooks/use-btc-price'
 import { usePurchases } from '@/hooks/use-purchases'
 import { useCarriedForward } from '@/hooks/use-carried-forward'
 import { ThemeToggle } from '@/components/theme-toggle'
-import { Plus, RefreshCw, Rocket, Thermometer, Timer, Medal } from 'lucide-react'
+import { Plus, RefreshCw, Rocket, Thermometer, Timer } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import type { Portfolio } from '@/lib/types'
 import { FngInsight } from '@/components/fng-insight'
 import { HalvingCountdown } from '@/components/halving-countdown'
-import { HodlBadges } from '@/components/hodl-badges'
 
 export default function HomePage() {
   const { price, refresh: refreshPrice, isLoading: isPriceLoading } = useBtcPrice()
@@ -24,7 +23,6 @@ export default function HomePage() {
   const [isMoonModalOpen, setIsMoonModalOpen] = useState(false)
   const [isFngModalOpen, setIsFngModalOpen] = useState(false)
   const [isHalvingModalOpen, setIsHalvingModalOpen] = useState(false)
-  const [isBadgesModalOpen, setIsBadgesModalOpen] = useState(false)
   
   const {
     purchases,
@@ -82,25 +80,16 @@ export default function HomePage() {
       {/* Header - Minimal & Sticky */}
       <header className="sticky top-0 z-40 w-full border-b border-border/40 bg-background/80 backdrop-blur-md">
         <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10">
-              <svg viewBox="0 0 24 24" className="h-5 w-5 text-primary" fill="currentColor">
+          <div className="flex items-center gap-2 overflow-hidden">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#f7931a]/10 shrink-0">
+              <svg viewBox="0 0 24 24" className="h-6 w-6 text-[#f7931a]" fill="currentColor">
                 <path d="M23.638 14.904c-1.602 6.43-8.113 10.34-14.542 8.736C2.67 22.05-1.244 15.525.362 9.105 1.962 2.67 8.475-1.243 14.9.358c6.43 1.605 10.342 8.115 8.738 14.546z" />
-                <path fill="currentColor" className="text-white dark:text-background" d="M17.27 10.086c.24-1.6-.98-2.46-2.64-3.03l.54-2.16-1.32-.33-.53 2.1c-.35-.09-.7-.17-1.06-.25l.53-2.12-1.32-.33-.54 2.16c-.29-.07-.57-.13-.85-.2l-1.82-.45-.35 1.4s.98.23.96.24c.54.13.63.5.62.78l-.62 2.5c.04.01.09.02.14.04l-.14-.04-.87 3.5c-.07.16-.23.4-.6.31.01.02-.96-.24-.96-.24l-.66 1.5 1.72.43c.32.08.63.16.94.24l-.55 2.2 1.32.33.54-2.16c.36.1.71.19 1.05.27l-.54 2.15 1.32.33.55-2.2c2.26.43 3.96.26 4.68-1.79.58-1.65-.03-2.6-1.22-3.22.87-.2 1.52-.77 1.7-1.94zm-3.04 4.27c-.41 1.65-3.2.76-4.1.53l.73-2.93c.9.22 3.81.67 3.37 2.4zm.41-4.3c-.37 1.5-2.69.74-3.44.55l.66-2.66c.75.19 3.17.54 2.78 2.11z" />
+                <path fill="currentColor" className="text-white dark:text-[#1a1a1a]" d="M17.27 10.086c.24-1.6-.98-2.46-2.64-3.03l.54-2.16-1.32-.33-.53 2.1c-.35-.09-.7-.17-1.06-.25l.53-2.12-1.32-.33-.54 2.16c-.29-.07-.57-.13-.85-.2l-1.82-.45-.35 1.4s.98.23.96.24c.54.13.63.5.62.78l-.62 2.5c.04.01.09.02.14.04l-.14-.04-.87 3.5c-.07.16-.23.4-.6.31.01.02-.96-.24-.96-.24l-.66 1.5 1.72.43c.32.08.63.16.94.24l-.55 2.2 1.32.33.54-2.16c.36.1.71.19 1.05.27l-.54 2.15 1.32.33.55-2.2c2.26.43 3.96.26 4.68-1.79.58-1.65-.03-2.6-1.22-3.22.87-.2 1.52-.77 1.7-1.94zm-3.04 4.27c-.41 1.65-3.2.76-4.1.53l.73-2.93c.9.22 3.81.67 3.37 2.4zm.41-4.3c-.37 1.5-2.69.74-3.44.55l.66-2.66c.75.19 3.17.54 2.78 2.11z" />
               </svg>
             </div>
-            <h1 className="text-lg font-semibold tracking-tight">BTC Tracker</h1>
+            <h1 className="text-sm font-bold tracking-tight whitespace-nowrap overflow-hidden text-ellipsis">BTC Tracker</h1>
           </div>
-          <div className="flex items-center gap-1.5 sm:gap-2">
-             <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setIsBadgesModalOpen(true)}
-              className="rounded-full hover:bg-secondary text-yellow-600"
-              title="HODL Badges"
-            >
-              <Medal className="h-5 w-5" />
-            </Button>
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             <Button
               variant="ghost"
               size="icon"
@@ -144,7 +133,7 @@ export default function HomePage() {
       </header>
 
       {/* Main Container */}
-      <main className="container max-w-lg mx-auto px-6 py-6 pb-24 space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <main className="container max-w-lg mx-auto px-6 py-4 pb-20 space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
         
         {/* Price Hero Section */}
         <section>
@@ -225,15 +214,6 @@ export default function HomePage() {
       {isHalvingModalOpen && (
         <HalvingCountdown 
           onClose={() => setIsHalvingModalOpen(false)} 
-        />
-      )}
-
-      {/* HODL Badges Modal */}
-      {isBadgesModalOpen && (
-        <HodlBadges 
-          purchases={purchases}
-          portfolio={portfolio}
-          onClose={() => setIsBadgesModalOpen(false)} 
         />
       )}
 

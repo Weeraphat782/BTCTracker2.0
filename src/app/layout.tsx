@@ -7,11 +7,14 @@ import './globals.css'
 const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
+export const viewport = {
+  themeColor: '#f7931a',
+}
+
 export const metadata: Metadata = {
   title: 'BTC Tracker - Bitcoin Purchase Tracker',
   description: 'Track your Bitcoin purchases with real-time prices and average cost tracking',
   generator: 'v0.app',
-  themeColor: '#f7931a',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',

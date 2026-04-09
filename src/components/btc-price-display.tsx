@@ -5,9 +5,15 @@ import { Card, CardContent } from '@/components/ui/card'
 import { TrendingUp, TrendingDown, Bitcoin } from 'lucide-react'
 import { Skeleton } from '@/components/ui/skeleton'
 import { ResponsiveContainer, AreaChart, Area, YAxis } from 'recharts'
+import { useState, useEffect } from 'react'
 
 export function BtcPriceDisplay() {
   const { price, isLoading, isError } = useBtcPrice()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const formatThb = (value: number) => {
     return new Intl.NumberFormat('th-TH', {
@@ -46,8 +52,8 @@ export function BtcPriceDisplay() {
         <Bitcoin className="h-48 w-48 rotate-12" />
       </div>
 
-      <CardContent className="p-8 relative z-10">
-        <div className="space-y-6">
+      <CardContent className="p-5 relative z-10">
+        <div className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary">
               <Bitcoin className="h-4 w-4" />
@@ -73,7 +79,7 @@ export function BtcPriceDisplay() {
             ) : (
               <>
                 {/* 24h Trend Sparkline Background */}
-                {price?.sparkline && (
+                {mounted && price?.sparkline && (
                   <div className="absolute inset-0 -top-4 -bottom-4 opacity-50 pointer-events-none">
                     <ResponsiveContainer width="100%" height="100%">
                       <AreaChart data={price.sparkline}>
@@ -100,11 +106,11 @@ export function BtcPriceDisplay() {
                 )}
                 
                 <div className="relative z-10">
-                  <h2 className="text-5xl font-black tracking-tight text-foreground tabular-nums leading-none">
+                  <h2 className="text-4xl font-black tracking-tight text-foreground tabular-nums leading-none">
                     {price ? formatThb(price.thb) : '--'}
                   </h2>
-                  <div className="flex items-center gap-2 mt-2">
-                    <p className="text-lg font-medium text-muted-foreground tabular-nums">
+                  <div className="flex items-center gap-2 mt-1.5">
+                    <p className="text-base font-medium text-muted-foreground tabular-nums">
                       {price ? formatUsd(price.usd) : '--'}
                     </p>
                   </div>
@@ -119,7 +125,7 @@ export function BtcPriceDisplay() {
               <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest leading-none">24H MARKET TREND</span>
             </div>
             <span className="text-[10px] font-bold text-muted-foreground/50 tabular-nums">
-              {new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' })}
+              {mounted ? new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }) : '--:--'}
             </span>
           </div>
         </div>

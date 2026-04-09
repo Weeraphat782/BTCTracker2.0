@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Medal, X, Trophy, Heart, Shield, Star, Award } from 'lucide-react'
@@ -12,6 +13,12 @@ interface HodlBadgesProps {
 }
 
 export function HodlBadges({ purchases, portfolio, onClose }: HodlBadgesProps) {
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
   // Logic to calculate badges
   const hasPurchases = purchases.length > 0
   const oldestPurchase = hasPurchases ? purchases.reduce((oldest, p) => 
@@ -125,7 +132,7 @@ export function HodlBadges({ purchases, portfolio, onClose }: HodlBadgesProps) {
           <div className="pt-2">
             <div className="p-4 rounded-3xl bg-primary/5 text-center">
               <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Tenure Score</p>
-              <p className="text-2xl font-black tabular-nums">{daysHeld} Days Holding</p>
+              <p className="text-2xl font-black tabular-nums">{mounted ? daysHeld : '--'} Days Holding</p>
             </div>
           </div>
 

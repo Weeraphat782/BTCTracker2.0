@@ -29,9 +29,9 @@ export function PortfolioSummary({ portfolio }: PortfolioSummaryProps) {
       {/* Primary Focus Card: Current Value + Profit/Loss */}
       <Card className={`border-none ${isProfit ? 'bg-primary shadow-primary/20' : 'bg-destructive shadow-destructive/20'} text-white shadow-xl overflow-hidden relative transition-colors duration-500`}>
         <div className="absolute right-0 bottom-0 opacity-10 translate-x-1/4 translate-y-1/4">
-          <Wallet className="h-48 w-48" />
+          <Wallet className="h-32 w-32" />
         </div>
-        <CardContent className="p-6 relative z-10 space-y-4">
+        <CardContent className="p-4 relative z-10 space-y-3.5">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 opacity-80">
               <Wallet className="h-4 w-4" />
@@ -43,8 +43,8 @@ export function PortfolioSummary({ portfolio }: PortfolioSummaryProps) {
             </div>
           </div>
           
-          <div className="space-y-1">
-            <h3 className="text-4xl font-black tracking-tight tabular-nums">
+          <div className="space-y-0.5">
+            <h3 className="text-3xl font-black tracking-tight tabular-nums">
               {formatThb(portfolio.currentValueThb)}
             </h3>
             <div className="flex items-center justify-between">
@@ -52,7 +52,7 @@ export function PortfolioSummary({ portfolio }: PortfolioSummaryProps) {
                 <Bitcoin className="h-3.5 w-3.5" />
                 <span className="text-xs font-bold tabular-nums">{formatBtc(portfolio.totalBtc)} BTC</span>
               </div>
-              <p className="text-sm font-bold opacity-90 tabular-nums">
+              <p className="text-sm font-bold opacity-90 tabular-nums leading-none">
                 {isProfit ? '+' : ''}{formatThb(portfolio.profitLossThb)}
               </p>
             </div>
@@ -61,29 +61,29 @@ export function PortfolioSummary({ portfolio }: PortfolioSummaryProps) {
       </Card>
 
       {/* Secondary Stats Group */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-3">
         <Card className="border-none bg-card/60 backdrop-blur-sm shadow-sm">
-          <CardContent className="p-4 space-y-3">
+          <CardContent className="p-3.5 space-y-2.5">
             <div className="flex items-center gap-2 opacity-60">
               <Layers className="h-3.5 w-3.5" />
               <span className="text-[10px] font-bold uppercase tracking-widest">Total Investment</span>
             </div>
             <div className="space-y-0.5">
-              <p className="text-lg font-bold tabular-nums">{formatThb(portfolio.totalCostThb)}</p>
-              <p className="text-[10px] text-muted-foreground font-medium">Accumulated Cost</p>
+              <p className="text-base font-bold tabular-nums">{formatThb(portfolio.totalCostThb)}</p>
+              <p className="text-[9px] text-muted-foreground font-medium">Accumulated Cost</p>
             </div>
           </CardContent>
         </Card>
 
         <Card className="border-none bg-card/60 backdrop-blur-sm shadow-sm">
-          <CardContent className="p-4 space-y-3">
+          <CardContent className="p-3.5 space-y-2.5">
             <div className="flex items-center gap-2 opacity-60">
               <Target className="h-3.5 w-3.5" />
               <span className="text-[10px] font-bold uppercase tracking-widest">Break-even Price</span>
             </div>
             <div className="space-y-0.5">
-              <p className="text-lg font-bold tabular-nums">{formatThb(portfolio.averageCostPerBtc)}</p>
-              <p className="text-[10px] text-muted-foreground font-medium">Average Buy Price</p>
+              <p className="text-base font-bold tabular-nums">{formatThb(portfolio.averageCostPerBtc)}</p>
+              <p className="text-[9px] text-muted-foreground font-medium">Average Buy Price</p>
             </div>
           </CardContent>
         </Card>

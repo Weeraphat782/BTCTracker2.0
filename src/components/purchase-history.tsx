@@ -52,20 +52,20 @@ export function PurchaseHistory({ purchases, onDelete }: PurchaseHistoryProps) {
 
   return (
     <div className="space-y-4">
-      <div className="grid gap-3">
+      <div className="grid gap-2.5">
         {displayPurchases.map((purchase) => (
-          <Card key={purchase.id} className="border-none bg-card/60 backdrop-blur-sm shadow-sm rounded-3xl group overflow-hidden transition-all duration-300 active:scale-[0.98]">
+          <Card key={purchase.id} className="border-none bg-card/60 backdrop-blur-sm shadow-sm rounded-[24px] group overflow-hidden transition-all duration-300 active:scale-[0.98]">
             <CardContent className="p-0">
-              <div className="flex items-center p-4 pr-2 gap-4">
+              <div className="flex items-center p-3 pr-1.5 gap-3">
                 {/* Icon Column */}
-                <div className="h-12 w-12 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0">
-                  <Bitcoin className="h-6 w-6 text-primary" />
+                <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                  <Bitcoin className="h-5 w-5 text-primary" />
                 </div>
 
                 {/* Info Column */}
                 <div className="flex-1 min-w-0 space-y-0.5">
                   <div className="flex items-center gap-2">
-                    <span className="font-black text-base tracking-tight tabular-nums">
+                    <span className="font-black text-sm tracking-tight tabular-nums">
                       {purchase.btcAmount.toFixed(8)} BTC
                     </span>
                   </div>
@@ -77,10 +77,10 @@ export function PurchaseHistory({ purchases, onDelete }: PurchaseHistoryProps) {
 
                 {/* Price Column */}
                 <div className="text-right space-y-0.5">
-                  <p className="font-black text-base text-accent tabular-nums">
+                  <p className="font-black text-sm text-accent tabular-nums">
                     {formatThb(purchase.totalCost)}
                   </p>
-                  <p className="text-[10px] font-bold text-muted-foreground/60 tabular-nums">
+                  <p className="text-[9px] font-bold text-muted-foreground/60 tabular-nums">
                     @{formatThb(purchase.pricePerBtc)}
                   </p>
                 </div>
@@ -99,8 +99,8 @@ export function PurchaseHistory({ purchases, onDelete }: PurchaseHistoryProps) {
               </div>
               
               {purchase.note && (
-                <div className="mx-4 mb-4 p-3 rounded-2xl bg-secondary/30">
-                  <p className="text-[10px] text-muted-foreground/80 font-medium leading-relaxed italic">
+                <div className="mx-3 mb-3 p-2.5 rounded-xl bg-secondary/30">
+                  <p className="text-[9px] text-muted-foreground/80 font-medium leading-relaxed italic">
                     "{purchase.note}"
                   </p>
                 </div>
