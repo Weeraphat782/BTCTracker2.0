@@ -2,36 +2,36 @@ import { NextResponse } from 'next/server'
 
 export async function GET() {
   try {
-    // 1. Fetch current price and 24h change
-    const priceRes = await fetch(
-      'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=thb,usd&include_24hr_change=true',
-      { next: { revalidate: 30 } }
+    // CoinGecko's /simple/price is blocked (403), so price and 24h change are derived from market_chart
+    const [thbRes, usdRes] = await Promise.all(
+      ['thb', 'usd'].map((c) =>
+        fetch(`https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=${c}&days=1`, {
+          next: { revalidate: 60 },
+        })
+      )
     )
 
-    // 2. Fetch 24h market chart (for sparkline)
-    const chartRes = await fetch(
-      'https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=thb&days=1',
-      { next: { revalidate: 60 } }
-    )
-
-    if (!priceRes.ok || !chartRes.ok) {
+    if (!thbRes.ok || !usdRes.ok) {
       throw new Error('Failed to fetch data from CoinGecko')
     }
 
-    const priceData = await priceRes.json()
-    const chartData = await chartRes.json()
-    
-    // Extract prices for sparkline (every 12th point to reduce data size if needed, 
-    // but for 1 day there are ~288 points, which is fine for a chart)
-    const sparkline = chartData.prices.map(([timestamp, price]: [number, number]) => ({
+    const thbPrices: [number, number][] = (await thbRes.json()).prices
+    const usdPrices: [number, number][] = (await usdRes.json()).prices
+    if (!thbPrices?.length || !usdPrices?.length) {
+      throw new Error('Empty price data from CoinGecko')
+    }
+
+    const sparkline = thbPrices.map(([timestamp, price]) => ({
       time: timestamp,
       price: price
     }))
+    const first = thbPrices[0][1]
+    const last = thbPrices[thbPrices.length - 1][1]
 
     return NextResponse.json({
-      thb: priceData.bitcoin.thb,
-      usd: priceData.bitcoin.usd,
-      change24h: priceData.bitcoin.thb_24h_change,
+      thb: last,
+      usd: usdPrices[usdPrices.length - 1][1],
+      change24h: ((last - first) / first) * 100,
       sparkline: sparkline,
       timestamp: Date.now(),
     })

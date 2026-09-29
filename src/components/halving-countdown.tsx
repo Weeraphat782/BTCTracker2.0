@@ -26,7 +26,7 @@ export function HalvingCountdown({ onClose }: HalvingCountdownProps) {
   useEffect(() => {
     setMounted(true)
     fetch('/api/halving')
-      .then(res => res.json())
+      .then(res => { if (!res.ok) throw new Error(`HTTP ${res.status}`); return res.json() })
       .then(d => {
         setData(d)
         setLoading(false)

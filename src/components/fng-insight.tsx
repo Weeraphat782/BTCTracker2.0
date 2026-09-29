@@ -22,7 +22,7 @@ export function FngInsight({ onClose }: FngInsightProps) {
 
   useEffect(() => {
     fetch('/api/fng')
-      .then(res => res.json())
+      .then(res => { if (!res.ok) throw new Error(`HTTP ${res.status}`); return res.json() })
       .then(d => {
         setData(d)
         setLoading(false)

@@ -8,7 +8,11 @@ interface BtcPrice {
   timestamp: number
 }
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json())
+const fetcher = (url: string) =>
+  fetch(url).then((res) => {
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    return res.json()
+  })
 
 export function useBtcPrice() {
   const { data, error, isLoading, mutate } = useSWR<BtcPrice>(
